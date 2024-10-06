@@ -18,12 +18,15 @@ describe("TodoList Test Suite",()=>{
         expect(all[0].completed).toBe(true); // Check if it was marked completed
     });
     test("Should check retrieval of overdue",()=>{
-        expect(overdue).toBe(overdue);
+        const overdueTasks = overdue();
+        expect(overdueTasks.length).toBe(1);
     });
     test("Should check retrieval of dueToday",()=>{
-        expect(dueToday).toBe(dueToday);
+        const dueTodayTasks = dueToday();
+        expect(dueTodayTasks.length).toBe(0); 
     });
     test("Should check retrieval of dueLater",()=>{
-        expect(dueLater).toBe(dueLater);
+        const dueLaterTasks = dueLater();
+        expect(dueLaterTasks.length).toBe(0); 
     });
 });
