@@ -1,23 +1,13 @@
 const todoList=require('../todo');
-const {all,markAsComplete,add,overdue,dueToday,dueLater,}=todoList();
+let {all,markAsComplete,add,overdue,dueToday,dueLater,}=todoList();
 
 describe("TodoList Test Suite",()=>{
-    // 
-    beforeAll(() => {
-        // Add one todo item before all tests
-        add({
-            title: "test code",
-            completed: false,
-            dueDate: new Date().toISOString().slice(0, 10),
-        });
-    });
-
     test("Should add new todo", () => {
-        const todoItemCount = all.length; // Get the current count of todo items
+        let todoItemCount = all.length; // Get the current count of todo items
         add({
             title: "new test code", // Different title to avoid duplication issues
             completed: false,
-            dueDate: new Date().toISOString().slice(0, 10),
+            dueDate: "2024-10-03"
         });
         expect(all.length).toBe(todoItemCount + 1); // Check if the length increased
     });
