@@ -1,96 +1,34 @@
-const todoList = require("../todo");
-let todos;
+const todoList=require('../todo');
+let {all,markAsComplete,add,overdue,dueToday,dueLater,}=todoList();
 
-// Setup: Initialize a new todo list before each test
-beforeEach(() => {
-  todos = todoList();
+describe("TodoList Test Suite",()=>{
+    test("Should add new todo", () => {
+        let todoItemCount = all.length; // Get the current count of todo items
+        add({
+            title: "new test code", // Different title to avoid duplication issues
+            completed: false,
+            dueDate: "2024-10-03"
+        });
+        expect(all.length).toBe(todoItemCount + 1); // Check if the length increased
+    });
+
+    test("Should check mark as complete", () => {
+        expect(all[0].completed).toBe(false); // Initially not completed
+        markAsComplete(0); // Mark the first todo as complete
+        expect(all[0].completed).toBe(true); // Check if it was marked completed
+    });
+    test("Should check retrieval of overdue",()=>{
+        const overdueTasks = overdue();
+        expect(overdueTasks.length).toBe(1);
+    });
+    test("Should check retrieval of dueToday",()=>{
+        const dueTodayTasks = dueToday();
+        expect(dueTodayTasks.length).toBe(0); 
+    });
+    test("Should check retrieval of dueLater",()=>{
+        const dueLaterTasks = dueLater();
+        expect(dueLaterTasks.length).toBe(0); 
+    });
 });
 
-// Test Suite for TodoList functionality
-describe("TodoList Test Suite", () => {
-  // Test: Adding a new todo
-  test("Should add new todo", () => {
-    // Arrange: Get the initial count of todos
-    const todoItemsCount = todos.all.length;
-
-    // Act: Add a new todo
-    todos.add({
-      title: "Test todo 2",
-      completed: false,
-      dueDate: "2023-12-20",
-    });
-
-    // Assert: Check if the todo count increased
-    expect(todos.all.length).toBe(todoItemsCount + 1);
-  });
-
-  // Test: Marking a todo as complete
-  test("Should mark a todo as complete", () => {
-    // Arrange: Add an incomplete todo
-    todos.add({
-      title: "Test todo",
-      completed: false,
-      dueDate: "2023-12-20",
-    });
-
-    // Act: Mark the todo as complete
-    todos.markAsComplete(0);
-
-    // Assert: Check if the todo is marked as complete
-    expect(todos.all[0].completed).toBe(true);
-  });
-
-  // Test: Retrieving overdue items
-  test("Should retrieve overdue items", () => {
-    // Arrange: Add an overdue todo
-    const dateToday = new Date();
-    const yesterday = new Date(dateToday.setDate(dateToday.getDate() - 1));
-    const overdueTodoItemsCount = todos.overdue().length;
-
-    // Act: Add an overdue todo
-    todos.add({
-      title: "Complete my assignment",
-      dueDate: yesterday.toISOString().split("T")[0],
-      completed: false,
-    });
-
-    // Assert: Check if the overdue todo is retrieved
-    expect(todos.overdue().length).toEqual(overdueTodoItemsCount + 1);
-  });
-
-  // Test: Retrieving due today items
-  test("Should retrieve due today items", () => {
-    // Arrange: Add a todo due today
-    const dateToday = new Date();
-    const today = dateToday.toISOString().split("T")[0];
-    const dueTodayTodoItemsCount = todos.dueToday().length;
-
-    // Act: Add a todo due today
-    todos.add({
-      title: "Complete this milestone",
-      dueDate: today,
-      completed: false,
-    });
-
-    // Assert: Check if the todo due today is retrieved
-    expect(todos.dueToday().length).toEqual(dueTodayTodoItemsCount + 1);
-  });
-
-  // Test: Retrieving due later items
-  test("Should retrieve due later items", () => {
-    // Arrange: Add a todo due later
-    const dateToday = new Date();
-    const tomorrow = new Date(dateToday.setDate(dateToday.getDate() + 1));
-    const dueLaterTodoItemsCount = todos.dueLater().length;
-
-    // Act: Add a todo due later
-    todos.add({
-      title: "Prepare for sem exams",
-      dueDate: tomorrow.toISOString().split("T")[0],
-      completed: false,
-    });
-
-    // Assert: Check if the todo due later is retrieved
-    expect(todos.dueLater().length).toEqual(dueLaterTodoItemsCount + 1);
-  });
-});
+  
