@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       console.log("Overdue");
       // FILL IN HERE
       const overdueTodos = await this.overdue();
-      console.log(overdueTodos);
+      console.log(overdueTodos.map(todo => todo.displayableString()).join("\n"));
        //await this.overdue();
         
       console.log("\n");
@@ -29,16 +29,16 @@ module.exports = (sequelize, DataTypes) => {
       console.log("Due Today");
       // FILL IN HERE
       const dueTodayTodos = await this.dueToday();
-      console.log(dueTodayTodos);
+      console.log(dueTodayTodos.map(todo => todo.displayableString()).join("\n"));
       console.log("\n");
 
       console.log("Due Later");
       // FILL IN HERE
       const dueLaterTodos = await this.dueLater();
-      console.log(dueLaterTodos);
+      console.log(dueLaterTodos.map(todo => todo.displayableString()).join("\n"));
       
     }
-
+ 
     static async overdue() {
       // FILL IN HERE TO RETURN OVERDUE ITEMS
       
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
               }
             }
           });
-          return todos.map(todo => todo.displayableString()).join("\n");
+          return todos
         } catch (error) {
           console.error(error);
         
@@ -69,7 +69,7 @@ module.exports = (sequelize, DataTypes) => {
                 }                        
               }
             });
-            return todos.map(todo=> todo.displayableString()).join("\n");
+            return todos
             
         }catch(error){
             console.error(error);
@@ -89,7 +89,7 @@ module.exports = (sequelize, DataTypes) => {
                 }                        
               }
             });
-            return todos.map(todo=> todo.displayableString()).join("\n");
+            return todos
             
         }catch(error){
             console.error(error);
